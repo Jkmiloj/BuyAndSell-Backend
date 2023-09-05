@@ -1,5 +1,4 @@
 package com.BuyAndSell.Compraventa.controller.person;
-
 import com.BuyAndSell.Compraventa.domain.Persons;
 import com.BuyAndSell.Compraventa.domain.servicePerson.PersonService;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
 import java.util.Map;
 
@@ -44,9 +42,8 @@ public class PersonDto {
 
     @PostMapping(value = "/crear")
     public Integer save(@RequestBody Persons persons){
-        return personService.save(persons);
+            return personService.save(persons);
     }
-
     @PutMapping(value = "/actualizar-estado/{cc}")
     public ResponseEntity<String> update2(@PathVariable("cc") Integer cc, @RequestBody Map<String, String> requestBody){
         String newestado = requestBody.get("estado");

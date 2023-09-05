@@ -4,7 +4,6 @@ import com.BuyAndSell.Compraventa.persistence.entitiesPerson.PersonaEntity;
 import com.BuyAndSell.Compraventa.persistence.repositoryImplPerson.PersonRepositoryImpl;
 import com.BuyAndSell.Compraventa.persistence.repositoryPerson.PersonRepository;
 import org.springframework.stereotype.Service;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -58,7 +57,7 @@ public class PersonService implements PersonRepository {
                 return personRepository.getByCc(cc);
             }
         } else{
-               throw new IllegalArgumentException("La identificación debe de tener entre 7 y 10 digitos");
+               throw new IllegalArgumentException("La identificación debe de tener entre 7 y 10 dígitos");
                }
     }
 
@@ -68,8 +67,14 @@ public class PersonService implements PersonRepository {
         if (personExist.isEmpty()){
             throw new IllegalArgumentException("El numero de documento no se encuentra registrado");
         }
-        return personRepository.update(persons,cc);
+        String ccString = String.valueOf(persons.getCc());
+        if (ccString.length() >= 7 && ccString.length() <= 10) {
+            return personRepository.update(persons,cc);
+        } else {
+        throw new IllegalArgumentException("La identificación debe de tener entre 7 y 10 dígitos");
+        }
     }
+
 
     @Override
     public Integer save(Persons persons){
@@ -123,3 +128,4 @@ public class PersonService implements PersonRepository {
         return personRepository.save2(personaEntity);
     }
 }
+
