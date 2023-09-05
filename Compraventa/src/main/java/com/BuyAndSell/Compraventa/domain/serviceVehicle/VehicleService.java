@@ -97,7 +97,10 @@ public class VehicleService implements VehicleRepository {
         if (vehicles.getPlaca() == null || vehicles.getPlaca().isEmpty()){
             throw new IllegalArgumentException("Debe ingresar una placa");
         }
-        Optional<VehiculoEntity> placaExist = vehicleRepository.findById(vehicles.getPlaca());
+        if (!Arrays.stream(tipoV).anyMatch(state -> state.equals(vehicles.getTipo()))){
+            throw new IllegalArgumentException("Tipo de vehiculo no valido, debe ser Moto o Carro");
+        }
+        Optional<VehiculoEntity> placaExist = vehicleRepository.findById(vehicles.getPlaca().toUpperCase());
         if (vehicles.getCilindraje() >= 99){
             if (validarPlacaCarro(vehicles.getPlaca()) || validarPlacaMoto(vehicles.getPlaca())){
                 if (placaExist.isPresent()) {
@@ -108,6 +111,8 @@ public class VehicleService implements VehicleRepository {
             }else {
                 throw new IllegalArgumentException("Formato de placa invalido");
             }
+        } else {
+            throw new IllegalArgumentException("El cilindraje no es válido");
         }
     }
 }

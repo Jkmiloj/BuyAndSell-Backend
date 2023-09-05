@@ -96,7 +96,7 @@ public class VehicleRepositoryImpl implements VehicleRepository {
     @Override
     public String save(Vehicles vehicles){
         VehiculoEntity vehiculoEntity = new VehiculoEntity(
-                vehicles.getPlaca(),
+                vehicles.getPlaca().toUpperCase(),
                 vehicles.getTipo(),
                 vehicles.getCilindraje(),
                 vehicles.getModelo(),
