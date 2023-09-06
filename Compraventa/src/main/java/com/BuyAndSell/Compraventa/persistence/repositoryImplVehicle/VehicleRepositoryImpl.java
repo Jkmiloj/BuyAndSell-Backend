@@ -106,4 +106,24 @@ public class VehicleRepositoryImpl implements VehicleRepository {
         );
         return crudVRepository.save(vehiculoEntity).getPlaca();
     }
+
+    @Override
+    public void updateE(String placa, String newestado){
+        Optional<VehiculoEntity> personEntityOptional = crudVRepository.findById(placa);
+
+        if (personEntityOptional.isPresent()) {
+            VehiculoEntity vehiculoEntity = personEntityOptional.get();
+            vehiculoEntity.setEstado(newestado);
+            crudVRepository.save(vehiculoEntity);
+        } else {
+            throw new IllegalArgumentException("No se puede actualizar, la placa no existe.");
+        }
+    }
+
+    @Override
+    public String save2(VehiculoEntity personaEntity) {
+        personaEntity.getPlaca();
+        personaEntity.getEstado();
+        return crudVRepository.save(personaEntity).getPlaca();
+    }
 }

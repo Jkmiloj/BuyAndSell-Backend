@@ -17,4 +17,8 @@ public interface VehicleRepository {
 
     String save(Vehicles vehicles);
 
+    void updateE(String placa, String newestado);
+
+    String save2(VehiculoEntity personaEntity);
+
 }

@@ -104,7 +104,7 @@ public class PersonService implements PersonRepository {
     @Override
     public void update2(Integer cc, String newestado){
         if (cc == null || newestado == null || newestado.isEmpty()){
-            throw new IllegalArgumentException("La cédula y el género son obligatorios");
+            throw new IllegalArgumentException("La cédula y el estado son obligatorios");
         }
         Optional<PersonaEntity> personExist = personRepository.findById(cc);
         if (personExist.isEmpty()){
@@ -114,7 +114,7 @@ public class PersonService implements PersonRepository {
         if (ccString.length() >= 7 && ccString.length() <= 10) {
             if (personExist.isPresent()){
                 if (!Arrays.asList("A","I").contains(newestado.toUpperCase())){
-                    throw new IllegalArgumentException("El género no es valido");
+                    throw new IllegalArgumentException("El estado no es valido");
                 }
                 PersonaEntity personaEntity = personExist.get();
                 personaEntity.setEstado(newestado.toUpperCase());

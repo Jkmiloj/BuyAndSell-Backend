@@ -115,4 +115,30 @@ public class VehicleService implements VehicleRepository {
             throw new IllegalArgumentException("El cilindraje no es válido");
         }
     }
+
+    @Override
+    public void updateE(String placa, String newestado){
+        if (placa == null || newestado == null || newestado.isEmpty()){
+            throw new IllegalArgumentException("La cédula y el estado son obligatorios");
+        }
+        Optional<VehiculoEntity> personExist = vehicleRepository.findById(placa);
+        if (personExist.isEmpty()){
+            throw new IllegalArgumentException("No se puede actualizar, la placa no existe");
+        }
+        if (validarPlacaCarro(placa) || validarPlacaMoto(placa)){
+            if (personExist.isPresent()){
+                if (!Arrays.asList("A","I").contains(newestado.toUpperCase())){
+                    throw new IllegalArgumentException("El estado no es valido");
+                }
+                VehiculoEntity vehiculoEntity = personExist.get();
+                vehiculoEntity.setEstado(newestado.toUpperCase());
+                vehicleRepository.save2(vehiculoEntity);
+            }
+        }
+    }
+
+    @Override
+    public String save2(VehiculoEntity vehiculoEntity) {
+        return vehicleRepository.save2(vehiculoEntity);
+    }
 }

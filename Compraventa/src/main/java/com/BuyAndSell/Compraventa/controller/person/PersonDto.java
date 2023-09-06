@@ -53,7 +53,7 @@ public class PersonDto {
         }
         try {
             personService.update2(cc,newestado);
-            return ResponseEntity.ok("Genero actualizado");
+            return ResponseEntity.ok("Estado actualizado");
         } catch (IllegalArgumentException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
