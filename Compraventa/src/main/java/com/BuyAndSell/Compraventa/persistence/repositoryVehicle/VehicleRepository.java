@@ -1,23 +1,23 @@
 package com.BuyAndSell.Compraventa.persistence.repositoryVehicle;
-import com.BuyAndSell.Compraventa.domain.Vehicles;
+import com.BuyAndSell.Compraventa.domain.VehicleDto;
 import com.BuyAndSell.Compraventa.persistence.entitiesVehicle.VehiculoEntity;
 import java.util.List;
 import java.util.Optional;
 
 public interface VehicleRepository {
-    List<Vehicles> getAll();
+    List<VehicleDto> getAll();
 
-    List<Vehicles> getByEstadoV(String estado);
+    List<VehicleDto> getByStateV(String estado);
 
     Optional<VehiculoEntity> findById(String placa);
 
-    List<Vehicles> getByPlaca(String placa);
+    List<VehicleDto> getByPlaca(String placa);
 
-    String update(Vehicles vehicles, String placa);
+    String update(VehicleDto vehicles, String placa);
 
-    String save(Vehicles vehicles);
+    String save(VehicleDto vehicles);
 
-    void updateE(String placa, String newestado);
+    void updateByStateV(String placa, String newestado);
 
     String save2(VehiculoEntity personaEntity);
 

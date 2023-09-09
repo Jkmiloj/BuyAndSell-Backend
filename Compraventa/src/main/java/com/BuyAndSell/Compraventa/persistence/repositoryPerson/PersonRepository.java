@@ -1,23 +1,23 @@
 package com.BuyAndSell.Compraventa.persistence.repositoryPerson;
-import com.BuyAndSell.Compraventa.domain.Persons;
+import com.BuyAndSell.Compraventa.domain.PersonDto;
 import com.BuyAndSell.Compraventa.persistence.entitiesPerson.PersonaEntity;
 import java.util.List;
 import java.util.Optional;
 
 public interface PersonRepository {
-    List<Persons> getAll();
+    List<PersonDto> getAll();
 
-    List<Persons> getByEstado(String estado);
+    List<PersonDto> getByState(String estado);
 
     Optional<PersonaEntity> findById(Integer cc);
 
-    List<Persons> getByCc(Integer cc);
+    List<PersonDto> getByCc(Integer cc);
 
-    Integer update(Persons persons, Integer cc);
+    Integer update(PersonDto personDto);
 
-    Integer save(Persons persons);
+    Integer save(PersonDto personDto);
 
-    void update2(Integer cc, String newestado);
+    void updateByState(Integer cc, String newestado);
 
     Integer save2(PersonaEntity personaEntity);
 }

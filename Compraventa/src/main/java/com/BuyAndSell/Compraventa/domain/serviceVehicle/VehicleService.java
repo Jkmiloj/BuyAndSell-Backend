@@ -1,5 +1,5 @@
 package com.BuyAndSell.Compraventa.domain.serviceVehicle;
-import com.BuyAndSell.Compraventa.domain.Vehicles;
+import com.BuyAndSell.Compraventa.domain.VehicleDto;
 import com.BuyAndSell.Compraventa.persistence.entitiesVehicle.VehiculoEntity;
 import com.BuyAndSell.Compraventa.persistence.repositoryImplVehicle.VehicleRepositoryImpl;
 import com.BuyAndSell.Compraventa.persistence.repositoryVehicle.VehicleRepository;
@@ -21,19 +21,19 @@ public class VehicleService implements VehicleRepository {
     private final String[] estadoListV = {"A","I"};
     private final String[] tipoV = {"Moto","Carro"};
     @Override
-    public List<Vehicles> getAll(){
+    public List<VehicleDto> getAll(){
         return vehicleRepository.getAll();
     }
 
     @Override
-    public List<Vehicles> getByEstadoV(String estado){
+    public List<VehicleDto> getByStateV(String estado){
         if (estado == null || estado.isEmpty()){
             throw new IllegalArgumentException("Se debe de ingresar un estado");
         }
         if(!Arrays.stream(estadoListV).anyMatch(state -> state.equals(estado))){
             throw new RuntimeException("El estado no es válido, debe ingresar A o I");
         }
-        return vehicleRepository.getByEstadoV(estado);
+        return vehicleRepository.getByStateV(estado);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class VehicleService implements VehicleRepository {
     }
 
     @Override
-    public List<Vehicles> getByPlaca(String placa){
+    public List<VehicleDto> getByPlaca(String placa){
         if (placa == null || placa.isEmpty()){
             throw new IllegalArgumentException("Debe ingresar una placa");
         }
@@ -77,7 +77,7 @@ public class VehicleService implements VehicleRepository {
     }
 
     @Override
-    public String update(Vehicles vehicles, String placa){
+    public String update(VehicleDto vehicles, String placa){
         Optional<VehiculoEntity> placaExist = vehicleRepository.findById(placa);
 
         if (placaExist.isEmpty()){
@@ -93,7 +93,7 @@ public class VehicleService implements VehicleRepository {
     }
 
     @Override
-    public String save(Vehicles vehicles){
+    public String save(VehicleDto vehicles){
         if (vehicles.getPlaca() == null || vehicles.getPlaca().isEmpty()){
             throw new IllegalArgumentException("Debe ingresar una placa");
         }
@@ -117,7 +117,7 @@ public class VehicleService implements VehicleRepository {
     }
 
     @Override
-    public void updateE(String placa, String newestado){
+    public void updateByStateV(String placa, String newestado){
         if (placa == null || newestado == null || newestado.isEmpty()){
             throw new IllegalArgumentException("La cédula y el estado son obligatorios");
         }

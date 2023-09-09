@@ -1,5 +1,5 @@
 package com.BuyAndSell.Compraventa.persistence.repositoryImplPerson;
-import com.BuyAndSell.Compraventa.domain.Persons;
+import com.BuyAndSell.Compraventa.domain.PersonDto;
 import com.BuyAndSell.Compraventa.persistence.entitiesPerson.PersonaEntity;
 import com.BuyAndSell.Compraventa.persistence.repositoryPerson.CrudRepository;
 import com.BuyAndSell.Compraventa.persistence.repositoryPerson.PersonRepository;
@@ -17,11 +17,11 @@ public class PersonRepositoryImpl implements PersonRepository {
     }
 
     @Override
-    public List<Persons> getAll(){
-        List<Persons> personList = new ArrayList<>();
+    public List<PersonDto> getAll(){
+        List<PersonDto> personList = new ArrayList<>();
         List<PersonaEntity> personaEntityList = crudRepository.findAll();
         personaEntityList.forEach(personaEntity -> {
-            Persons persons = new Persons(
+            PersonDto personDto = new PersonDto(
                 personaEntity.getCc(),
                 personaEntity.getNombre(),
                 personaEntity.getApellido1(),
@@ -30,17 +30,17 @@ public class PersonRepositoryImpl implements PersonRepository {
                 personaEntity.getGenero(),
                 personaEntity.getEstado()
             );
-            personList.add(persons);
+            personList.add(personDto);
         });
         return personList;
     }
 
     @Override
-    public List<Persons> getByEstado(String estado){
-        List<Persons> personList = new ArrayList<>();
-        List<PersonaEntity> personaEntityList = crudRepository.getByEstado(estado);
+    public List<PersonDto> getByState(String estado){
+        List<PersonDto> personList = new ArrayList<>();
+        List<PersonaEntity> personaEntityList = crudRepository.getByState(estado);
         personaEntityList.forEach(personaEntity -> {
-            Persons persons = new Persons(
+            PersonDto personDto = new PersonDto(
                     personaEntity.getCc(),
                     personaEntity.getNombre(),
                     personaEntity.getApellido1(),
@@ -49,7 +49,7 @@ public class PersonRepositoryImpl implements PersonRepository {
                     personaEntity.getGenero(),
                     personaEntity.getEstado()
             );
-            personList.add(persons);
+            personList.add(personDto);
         });
         return personList;
     }
@@ -60,11 +60,11 @@ public class PersonRepositoryImpl implements PersonRepository {
     }
 
     @Override
-    public List<Persons> getByCc(Integer cc){
-        List<Persons> personList = new ArrayList<>();
+    public List<PersonDto> getByCc(Integer cc){
+        List<PersonDto> personList = new ArrayList<>();
         List<PersonaEntity> personaEntityList = crudRepository.getByCc(cc);
         personaEntityList.forEach(personaEntity -> {
-            Persons persons = new Persons(
+            PersonDto personDto = new PersonDto(
                     personaEntity.getCc(),
                     personaEntity.getNombre(),
                     personaEntity.getApellido1(),
@@ -73,41 +73,41 @@ public class PersonRepositoryImpl implements PersonRepository {
                     personaEntity.getGenero(),
                     personaEntity.getEstado()
             );
-            personList.add(persons);
+            personList.add(personDto);
         });
         return personList;
     }
 
     @Override
-    public Integer update(Persons persons, Integer cc){
+    public Integer update(PersonDto personDto){
         PersonaEntity personaEntity = new PersonaEntity(
-                persons.getCc(),
-                persons.getNombre(),
-                persons.getApellido1(),
-                persons.getApellido2(),
-                persons.getEdad(),
-                persons.getGenero(),
-                persons.getEstado()
+                personDto.getCc(),
+                personDto.getNombre(),
+                personDto.getApellido1(),
+                personDto.getApellido2(),
+                personDto.getEdad(),
+                personDto.getGenero(),
+                personDto.getEstado()
         );
         return crudRepository.save(personaEntity).getCc();
     }
 
     @Override
-    public Integer save(Persons persons){
+    public Integer save(PersonDto personDto){
         PersonaEntity personaEntity = new PersonaEntity(
-                persons.getCc(),
-                persons.getNombre(),
-                persons.getApellido1(),
-                persons.getApellido2(),
-                persons.getEdad(),
-                persons.getGenero(),
-                persons.getEstado()
+                personDto.getCc(),
+                personDto.getNombre(),
+                personDto.getApellido1(),
+                personDto.getApellido2(),
+                personDto.getEdad(),
+                personDto.getGenero(),
+                personDto.getEstado()
         );
         return crudRepository.save(personaEntity).getCc();
     }
 
     @Override
-    public void update2(Integer cc, String newestado){
+    public void updateByState(Integer cc, String newestado){
         Optional<PersonaEntity> personEntityOptional = crudRepository.findById(cc);
 
         if (personEntityOptional.isPresent()) {

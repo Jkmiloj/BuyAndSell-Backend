@@ -1,5 +1,5 @@
 package com.BuyAndSell.Compraventa.persistence.repositoryImplVehicle;
-import com.BuyAndSell.Compraventa.domain.Vehicles;
+import com.BuyAndSell.Compraventa.domain.VehicleDto;
 import com.BuyAndSell.Compraventa.persistence.entitiesVehicle.VehiculoEntity;
 import com.BuyAndSell.Compraventa.persistence.repositoryVehicle.CrudVRepository;
 import com.BuyAndSell.Compraventa.persistence.repositoryVehicle.VehicleRepository;
@@ -18,11 +18,11 @@ public class VehicleRepositoryImpl implements VehicleRepository {
     }
 
     @Override
-    public List<Vehicles> getAll(){
-        List<Vehicles> vehicleList = new ArrayList<>();
+    public List<VehicleDto> getAll(){
+        List<VehicleDto> vehicleList = new ArrayList<>();
         List<VehiculoEntity> vehiculoEntityList = crudVRepository.findAll();
         vehiculoEntityList.forEach(vehiculoEntity -> {
-            Vehicles vehicles = new Vehicles(
+            VehicleDto vehicles = new VehicleDto(
                  vehiculoEntity.getPlaca(),
                  vehiculoEntity.getTipo(),
                  vehiculoEntity.getCilindraje(),
@@ -37,11 +37,11 @@ public class VehicleRepositoryImpl implements VehicleRepository {
     }
 
     @Override
-    public List<Vehicles> getByEstadoV(String estado){
-        List<Vehicles> vehicleList = new ArrayList<>();
-        List<VehiculoEntity> vehiculoEntityList = crudVRepository.getByEstadoV(estado);
+    public List<VehicleDto> getByStateV(String estado){
+        List<VehicleDto> vehicleList = new ArrayList<>();
+        List<VehiculoEntity> vehiculoEntityList = crudVRepository.getByStateV(estado);
         vehiculoEntityList.forEach(vehiculoEntity -> {
-            Vehicles vehicles = new Vehicles(
+            VehicleDto vehicles = new VehicleDto(
                     vehiculoEntity.getPlaca(),
                     vehiculoEntity.getTipo(),
                     vehiculoEntity.getCilindraje(),
@@ -61,11 +61,11 @@ public class VehicleRepositoryImpl implements VehicleRepository {
     }
 
     @Override
-    public List<Vehicles> getByPlaca(String placa){
-        List<Vehicles> vehicleList = new ArrayList<>();
+    public List<VehicleDto> getByPlaca(String placa){
+        List<VehicleDto> vehicleList = new ArrayList<>();
         List<VehiculoEntity> vehiculoEntityList = crudVRepository.getByPlaca(placa);
         vehiculoEntityList.forEach(vehiculoEntity -> {
-            Vehicles vehicles = new Vehicles(
+            VehicleDto vehicles = new VehicleDto(
                     vehiculoEntity.getPlaca(),
                     vehiculoEntity.getTipo(),
                     vehiculoEntity.getCilindraje(),
@@ -80,7 +80,7 @@ public class VehicleRepositoryImpl implements VehicleRepository {
     }
 
     @Override
-    public String update(Vehicles vehicles, String placa){
+    public String update(VehicleDto vehicles, String placa){
         VehiculoEntity vehiculoEntity = new VehiculoEntity(
             vehicles.getPlaca(),
             vehicles.getTipo(),
@@ -94,7 +94,7 @@ public class VehicleRepositoryImpl implements VehicleRepository {
     }
 
     @Override
-    public String save(Vehicles vehicles){
+    public String save(VehicleDto vehicles){
         VehiculoEntity vehiculoEntity = new VehiculoEntity(
                 vehicles.getPlaca().toUpperCase(),
                 vehicles.getTipo(),
@@ -108,7 +108,7 @@ public class VehicleRepositoryImpl implements VehicleRepository {
     }
 
     @Override
-    public void updateE(String placa, String newestado){
+    public void updateByStateV(String placa, String newestado){
         Optional<VehiculoEntity> personEntityOptional = crudVRepository.findById(placa);
 
         if (personEntityOptional.isPresent()) {

@@ -11,7 +11,7 @@ public interface CrudRepository extends JpaRepository<PersonaEntity, Integer> {
     List<PersonaEntity> findAll();
 
     @Query(value = "SELECT * FROM PERSON WHERE estado =:estado", nativeQuery = true)
-    List<PersonaEntity> getByEstado(@Param("estado") String estado);
+    List<PersonaEntity> getByState(@Param("estado") String estado);
 
     @Query(value = "SELECT * FROM PERSON WHERE cc =:cc", nativeQuery = true)
     List<PersonaEntity> getByCc(@Param("cc") Integer cc);

@@ -10,7 +10,7 @@ public interface CrudVRepository extends JpaRepository<VehiculoEntity,String> {
   List<VehiculoEntity> findAll();
 
   @Query(value = "SELECT * FROM VEHICULO WHERE estado =:estado", nativeQuery = true)
-  List<VehiculoEntity> getByEstadoV(@Param("estado") String estado);
+  List<VehiculoEntity> getByStateV(@Param("estado") String estado);
 
   @Query(value = "SELECT * FROM VEHICULO WHERE placa =:placa", nativeQuery = true)
   List<VehiculoEntity> getByPlaca(@Param("placa") String placa);
