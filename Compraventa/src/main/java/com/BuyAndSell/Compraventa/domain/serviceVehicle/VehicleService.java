@@ -18,7 +18,7 @@ public class VehicleService implements VehicleRepository {
         this.vehicleRepository = vehicleRepository;
     }
 
-    private final String[] estadoListV = {"A","I"};
+    private final String[] estadoListV = {"A","I","V"};
     private final String[] tipoV = {"Moto","Carro"};
     @Override
     public List<VehicleDto> getAll(){
@@ -31,7 +31,7 @@ public class VehicleService implements VehicleRepository {
             throw new IllegalArgumentException("Se debe de ingresar un estado");
         }
         if(!Arrays.stream(estadoListV).anyMatch(state -> state.equals(estado))){
-            throw new RuntimeException("El estado no es válido, debe ingresar A o I");
+            throw new RuntimeException("El estado no es válido, debe ingresar A, I o V");
         }
         return vehicleRepository.getByStateV(estado);
     }

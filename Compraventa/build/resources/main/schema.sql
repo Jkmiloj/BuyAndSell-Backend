@@ -20,14 +20,33 @@ CREATE TABLE IF NOT EXISTS VEHICULO (
     PRIMARY KEY (placa)
     );
 
+CREATE TABLE IF NOT EXISTS COMPRA (
+    idBuy INT not null AUTO_INCREMENT,
+    cc INT not null,
+    placa VARCHAR(6) not null,
+    fechaCompra DATE not null,
+    PRIMARY KEY (idBuy),
+    FOREIGN KEY (cc) REFERENCES PERSON(cc),
+    FOREIGN KEY (placa) REFERENCES VEHICULO(placa)
+);
+
 INSERT INTO PERSON  (cc, nombre, apellido1, apellido2, edad, genero, estado)
     VALUES
         (42369785, 'Armando', 'Paredes', 'largas', 35, 'M', 'A'),
         (32968322, 'Estela', 'Manco', 'Cuervo', 40, 'F', 'A'),
-        (1125365788, 'Efrain', 'Salazar', 'Perez', 20, 'M', 'I');
+        (1125365788, 'Efrain', 'Salazar', 'Perez', 20, 'M', 'I'),
+        (98765432, 'Juan', 'Franco', 'Mendez', 40, 'M', 'A');
+
 
 INSERT INTO VEHICULO  (placa, tipo, cilindraje, modelo, marca, ciudad, estado)
     VALUES
         ('AMD256', 'carro', 1400, 2016, 'Chevrolet Aveo', 'Medellin', 'A'),
-        ('RTI526', 'carro', 2500, 2020, 'Toyota Runner', 'Pereira', 'A'),
-        ('FYZ95B','Moto', 199, 2014, 'Bajaj Pulsar', 'Medellin', 'I');
+        ('RTI526', 'carro', 2500, 2020, 'Toyota Runner', 'Pereira', 'I'),
+        ('FYZ95B','Moto', 199, 2014, 'Bajaj Pulsar', 'Medellin', 'V'),
+        ('XYZ789','Carro', 3500, 2020, 'Toyota Land Cruiser', 'Rionegro', 'V');
+
+
+--INSERT INTO COMPRA (cc, placa, fechaCompra)
+  --  VALUES
+    --    (98765432, 'XYZ789', '20230911'),
+      --  (32968322, 'FYZ95B', '20230810');
