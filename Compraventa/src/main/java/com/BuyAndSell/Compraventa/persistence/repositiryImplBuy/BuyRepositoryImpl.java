@@ -1,5 +1,8 @@
 package com.BuyAndSell.Compraventa.persistence.repositiryImplBuy;
+
 import com.BuyAndSell.Compraventa.domain.CompraDto;
+import com.BuyAndSell.Compraventa.domain.PersonDto;
+import com.BuyAndSell.Compraventa.domain.VehicleDto;
 import com.BuyAndSell.Compraventa.persistence.entitiesBuy.CompraEntity;
 import com.BuyAndSell.Compraventa.persistence.repositoryBuy.BuyRepository;
 import com.BuyAndSell.Compraventa.persistence.repositoryBuy.CrudCRepository;
@@ -35,5 +38,15 @@ public class BuyRepositoryImpl implements BuyRepository {
             compraList.add(compras);
         });
         return compraList;
+    }
+
+    public Integer save(CompraDto compraDto, PersonDto personDto, VehicleDto vehicleDto){
+        CompraEntity compraEntity = new CompraEntity(
+                compraDto.getIdBuy(),
+                compraDto.getFechaCompra(),
+                personDto.getCc(),
+                vehicleDto.getPlaca()
+        );
+        return crudCRepository.save(compraEntity).getIdBuy();
     }
 }

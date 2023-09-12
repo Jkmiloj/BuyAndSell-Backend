@@ -19,6 +19,10 @@ public class VehicleDto {
         this.estado = estado;
     }
 
+    public VehicleDto() {
+
+    }
+
     public String getPlaca() {
         return placa;
     }

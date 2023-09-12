@@ -1,15 +1,13 @@
 package com.BuyAndSell.Compraventa.persistence.entitiesBuy;
-
 import com.BuyAndSell.Compraventa.domain.PersonDto;
 import com.BuyAndSell.Compraventa.domain.VehicleDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
 import java.util.Date;
 
 @Entity
@@ -21,12 +19,23 @@ public class CompraEntity {
     private Date fechaCompra;
     private Integer cc;
     private String placa;
+    @ManyToOne
+    @JoinColumn(name = "cc", referencedColumnName = "cc", insertable = false, updatable = false)
+    private PersonDto personDto;
+
+    @ManyToOne
+    @JoinColumn(name = "placa", referencedColumnName = "placa", insertable = false, updatable = false)
+    private VehicleDto vehicleDto;
+
+
 
     public CompraEntity(Integer idBuy, Date fechaCompra, Integer cc, String placa) {
         this.idBuy = idBuy;
         this.fechaCompra = fechaCompra;
         this.cc = cc;
         this.placa = placa;
+        this.personDto = personDto;
+        this.vehicleDto = vehicleDto;
     }
 
     public Integer getIdBuy() {
@@ -61,11 +70,4 @@ public class CompraEntity {
         this.placa = placa;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "cc", referencedColumnName = "cc", insertable = false, updatable = false)
-    private PersonDto personDto;
-
-    @ManyToOne
-    @JoinColumn(name = "placa", referencedColumnName = "placa", insertable = false, updatable = false)
-    private VehicleDto vehicleDto;
 }

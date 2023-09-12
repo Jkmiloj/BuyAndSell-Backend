@@ -1,12 +1,12 @@
 package com.BuyAndSell.Compraventa.persistence.entitiesVehicle;
-import com.BuyAndSell.Compraventa.domain.CompraDto;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "VEHICULO")
-public class VehiculoEntity extends CompraDto {
+public class VehiculoEntity {
 
     @Id
     private String placa;
