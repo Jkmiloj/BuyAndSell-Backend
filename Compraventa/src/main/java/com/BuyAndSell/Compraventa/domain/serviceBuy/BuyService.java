@@ -2,6 +2,7 @@ package com.BuyAndSell.Compraventa.domain.serviceBuy;
 import com.BuyAndSell.Compraventa.domain.CompraDto;
 import com.BuyAndSell.Compraventa.domain.PersonDto;
 import com.BuyAndSell.Compraventa.domain.VehicleDto;
+import com.BuyAndSell.Compraventa.persistence.entitiesBuy.CompraEntity;
 import com.BuyAndSell.Compraventa.persistence.entitiesPerson.PersonaEntity;
 import com.BuyAndSell.Compraventa.persistence.entitiesVehicle.VehiculoEntity;
 import com.BuyAndSell.Compraventa.persistence.repositiryImplBuy.BuyRepositoryImpl;
@@ -29,6 +30,8 @@ public class BuyService implements BuyRepository {
     public List<CompraDto> getAll() {
         return buyRepository.getAll();
     }
+
+
     @Override
     public Integer save(CompraDto compraDto, PersonDto personDto, VehicleDto vehicleDto){
 
@@ -45,7 +48,16 @@ public class BuyService implements BuyRepository {
         if (ccString.length() >= 7 && ccString.length() <= 10) {
            if (personExist.isPresent() && placaExist.isPresent()) {
                if (validarPlacaCarro(vehicleDto.getPlaca()) || validarPlacaMoto(vehicleDto.getPlaca())){
-                   return buyRepository.save(compraDto, personDto, vehicleDto);
+                   CompraEntity compraEntity = new CompraEntity();
+                       compraEntity.setFechaCompra(compraEntity.getFechaCompra());
+                       compraEntity.setCc(personDto.getCc());
+                       compraEntity.setPlaca(vehicleDto.getPlaca());
+                       compraEntity.setPersonaEntity(personExist.get());
+                       compraEntity.setVehiculoEntity(placaExist.get());
+
+                       /*CompraEntity savedCompraEntity = buyRepository.save(compraEntity);*/
+
+                   return buyRepository.save(compraDto);
                    /*VehicleDto.updateByStateV(vehicleDto.getPlaca(), vehicleDto.setEstado("V"));*/
                } else {
                    throw new IllegalArgumentException("Formato de placa invalido");

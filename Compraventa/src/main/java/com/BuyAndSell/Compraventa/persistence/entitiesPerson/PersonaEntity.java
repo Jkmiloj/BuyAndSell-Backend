@@ -1,5 +1,4 @@
 package com.BuyAndSell.Compraventa.persistence.entitiesPerson;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;

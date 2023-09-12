@@ -6,9 +6,8 @@ import com.BuyAndSell.Compraventa.domain.VehicleDto;
 import com.BuyAndSell.Compraventa.persistence.entitiesBuy.CompraEntity;
 import com.BuyAndSell.Compraventa.persistence.repositoryBuy.BuyRepository;
 import com.BuyAndSell.Compraventa.persistence.repositoryBuy.CrudCRepository;
-import com.BuyAndSell.Compraventa.persistence.repositoryPerson.CrudRepository;
-import com.BuyAndSell.Compraventa.persistence.repositoryVehicle.CrudVRepository;
 import org.springframework.stereotype.Repository;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +15,6 @@ import java.util.List;
 public class BuyRepositoryImpl implements BuyRepository {
 
     CrudCRepository crudCRepository;
-    CrudRepository crudRepository;
-
-    CrudVRepository crudVRepository;
 
     public BuyRepositoryImpl(CrudCRepository crudCRepository) {
         this.crudCRepository = crudCRepository;
@@ -40,13 +36,15 @@ public class BuyRepositoryImpl implements BuyRepository {
         return compraList;
     }
 
+
     public Integer save(CompraDto compraDto, PersonDto personDto, VehicleDto vehicleDto){
-        CompraEntity compraEntity = new CompraEntity(
-                compraDto.getIdBuy(),
+
+        CompraDto compraDto1 = new CompraDto(
+                null,
                 compraDto.getFechaCompra(),
                 personDto.getCc(),
                 vehicleDto.getPlaca()
         );
-        return crudCRepository.save(compraEntity).getIdBuy();
+        return crudCRepository.save(compraDto).getIdBuy();
     }
 }

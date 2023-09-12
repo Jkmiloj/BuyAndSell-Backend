@@ -1,13 +1,15 @@
 package com.BuyAndSell.Compraventa.persistence.entitiesBuy;
-import com.BuyAndSell.Compraventa.domain.PersonDto;
-import com.BuyAndSell.Compraventa.domain.VehicleDto;
+
+import com.BuyAndSell.Compraventa.persistence.entitiesPerson.PersonaEntity;
+import com.BuyAndSell.Compraventa.persistence.entitiesVehicle.VehiculoEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
 import java.util.Date;
 
 @Entity
@@ -21,11 +23,11 @@ public class CompraEntity {
     private String placa;
     @ManyToOne
     @JoinColumn(name = "cc", referencedColumnName = "cc", insertable = false, updatable = false)
-    private PersonDto personDto;
+    private PersonaEntity personaEntity;
 
     @ManyToOne
     @JoinColumn(name = "placa", referencedColumnName = "placa", insertable = false, updatable = false)
-    private VehicleDto vehicleDto;
+    private VehiculoEntity vehiculoEntity;
 
 
 
@@ -34,8 +36,28 @@ public class CompraEntity {
         this.fechaCompra = fechaCompra;
         this.cc = cc;
         this.placa = placa;
-        this.personDto = personDto;
-        this.vehicleDto = vehicleDto;
+        this.personaEntity = new PersonaEntity();
+        this.vehiculoEntity = new VehiculoEntity();
+    }
+
+    public CompraEntity() {
+
+    }
+
+    public PersonaEntity getPersonaEntity() {
+        return personaEntity;
+    }
+
+    public void setPersonaEntity(PersonaEntity personaEntity) {
+        this.personaEntity = personaEntity;
+    }
+
+    public VehiculoEntity getVehiculoEntity() {
+        return vehiculoEntity;
+    }
+
+    public void setVehiculoEntity(VehiculoEntity vehiculoEntity) {
+        this.vehiculoEntity = vehiculoEntity;
     }
 
     public Integer getIdBuy() {
