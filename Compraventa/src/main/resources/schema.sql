@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS VEHICULO (
     );
 
 CREATE TABLE IF NOT EXISTS COMPRA (
-    idBuy INT not null AUTO_INCREMENT,
+    idBuy INT AUTO_INCREMENT,
     cc INT not null,
     placa VARCHAR(6) not null,
     fechaCompra DATE not null,

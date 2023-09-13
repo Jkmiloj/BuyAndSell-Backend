@@ -1,13 +1,12 @@
 package com.BuyAndSell.Compraventa.persistence.repositiryImplBuy;
-
 import com.BuyAndSell.Compraventa.domain.CompraDto;
 import com.BuyAndSell.Compraventa.domain.PersonDto;
 import com.BuyAndSell.Compraventa.domain.VehicleDto;
+import com.BuyAndSell.Compraventa.domain.serviceVehicle.VehicleService;
 import com.BuyAndSell.Compraventa.persistence.entitiesBuy.CompraEntity;
 import com.BuyAndSell.Compraventa.persistence.repositoryBuy.BuyRepository;
 import com.BuyAndSell.Compraventa.persistence.repositoryBuy.CrudCRepository;
 import org.springframework.stereotype.Repository;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +14,8 @@ import java.util.List;
 public class BuyRepositoryImpl implements BuyRepository {
 
     CrudCRepository crudCRepository;
+
+    VehicleService vehicleService;
 
     public BuyRepositoryImpl(CrudCRepository crudCRepository) {
         this.crudCRepository = crudCRepository;
@@ -38,13 +39,26 @@ public class BuyRepositoryImpl implements BuyRepository {
 
 
     public Integer save(CompraDto compraDto, PersonDto personDto, VehicleDto vehicleDto){
+        CompraEntity compraEntity = new CompraEntity();
 
-        CompraDto compraDto1 = new CompraDto(
-                null,
-                compraDto.getFechaCompra(),
-                personDto.getCc(),
-                vehicleDto.getPlaca()
-        );
-        return crudCRepository.save(compraDto).getIdBuy();
+        compraEntity.setFechaCompra(compraDto.getFechaCompra());
+        compraEntity.setCc(personDto.getCc());
+        compraEntity.setPlaca(vehicleDto.getPlaca());
+
+        CompraEntity savedCompra = crudCRepository.save(compraEntity);
+
+        Integer idCompra = savedCompra.getIdBuy();
+
+        vehicleService.updateByStateV(vehicleDto.getPlaca(), "V");
+
+        return idCompra;
+
     }
 }
+    /*CompraEntity compraEntity = new CompraEntity(
+            compraDto.getIdBuy(),
+            compraDto.getFechaCompra(),
+            personDto.getCc(),
+            vehicleDto.getPlaca()
+    );
+        return crudCRepository.save(compraEntity).getIdBuy();*/
