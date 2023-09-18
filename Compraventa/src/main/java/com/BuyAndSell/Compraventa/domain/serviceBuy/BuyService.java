@@ -1,89 +1,87 @@
 package com.BuyAndSell.Compraventa.domain.serviceBuy;
 
-import com.BuyAndSell.Compraventa.domain.CompraDto;
-import com.BuyAndSell.Compraventa.domain.PersonDto;
-import com.BuyAndSell.Compraventa.domain.VehicleDto;
+import com.BuyAndSell.Compraventa.domain.BuyDto;
 import com.BuyAndSell.Compraventa.domain.serviceVehicle.VehicleService;
 import com.BuyAndSell.Compraventa.persistence.entitiesBuy.CompraEntity;
 import com.BuyAndSell.Compraventa.persistence.entitiesPerson.PersonaEntity;
 import com.BuyAndSell.Compraventa.persistence.entitiesVehicle.VehiculoEntity;
 import com.BuyAndSell.Compraventa.persistence.repositiryImplBuy.BuyRepositoryImpl;
-import com.BuyAndSell.Compraventa.persistence.repositoryBuy.BuyRepository;
 import com.BuyAndSell.Compraventa.persistence.repositoryBuy.CrudCRepository;
 import com.BuyAndSell.Compraventa.persistence.repositoryImplPerson.PersonRepositoryImpl;
 import com.BuyAndSell.Compraventa.persistence.repositoryImplVehicle.VehicleRepositoryImpl;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static com.BuyAndSell.Compraventa.domain.serviceVehicle.VehicleService.validarPlacaCarro;
-import static com.BuyAndSell.Compraventa.domain.serviceVehicle.VehicleService.validarPlacaMoto;
-
 @Service
-public class BuyService implements BuyRepository {
+public class BuyService {
 
     BuyRepositoryImpl buyRepository;
     VehicleRepositoryImpl vehicleRepository;
-    @Autowired
     PersonRepositoryImpl personRepository;
     CrudCRepository crudCRepository;
     VehicleService vehicleService;
 
-    public BuyService(BuyRepositoryImpl buyRepository) {
+
+    @Autowired
+    public BuyService(BuyRepositoryImpl buyRepository, VehicleRepositoryImpl vehicleRepository,
+                      PersonRepositoryImpl personRepository, CrudCRepository crudCRepository,
+                      VehicleService vehicleService) {
         this.buyRepository = buyRepository;
+        this.vehicleRepository = vehicleRepository;
+        this.personRepository = personRepository;
+        this.crudCRepository = crudCRepository;
+        this.vehicleService = vehicleService;
     }
 
-    @Override
-    public List<CompraDto> getAll() {
+
+    public List<BuyDto> getAll() {
         return buyRepository.getAll();
     }
 
 
-    @Override
-    @Transactional
-    public Integer save(CompraDto compraDto, PersonDto personDto, VehicleDto vehicleDto){
+    public Integer save(BuyDto buyDto) {
 
-        Optional<PersonaEntity> personExist = personRepository.findById(personDto.getCc());
-        Optional<VehiculoEntity> placaExist = vehicleRepository.findById(vehicleDto.getPlaca());
-        if (personDto.getCc() == null && vehicleDto.getPlaca() == null || vehicleDto.getPlaca().isEmpty()){
-            throw new IllegalArgumentException("El documento y la placa no deben estar vacios");
+        Optional<PersonaEntity> personaExist = personRepository.findById(buyDto.getCc());
+        if (personaExist.isEmpty()) {
+            throw new IllegalArgumentException("La persona con CC " + buyDto.getCc() + " no existe.");
         }
-        if (personDto.getCc() < 1){
-            throw new IllegalArgumentException("No se permiten valores negativos");
+
+        Optional<VehiculoEntity> placaExist = vehicleRepository.findById(buyDto.getPlaca());
+        if (placaExist.isEmpty()) {
+            throw new IllegalArgumentException("El vehículo con placa " + buyDto.getPlaca() + " no existe.");
         }
-        String ccString = String.valueOf(personDto.getCc());
 
-        if (ccString.length() >= 7 && ccString.length() <= 10) {
-           if (personExist.isPresent() && placaExist.isPresent()) {
-               if (validarPlacaCarro(vehicleDto.getPlaca()) || validarPlacaMoto(vehicleDto.getPlaca())){
-                   CompraEntity compraEntity = new CompraEntity();
-                   compraEntity.setFechaCompra(compraEntity.getFechaCompra());
-                   compraEntity.setCc(personDto.getCc());
-                   compraEntity.setPlaca(vehicleDto.getPlaca());
-                   compraEntity.setPersonaEntity(personExist.get());
-                   compraEntity.setVehiculoEntity(placaExist.get());
+        Integer newId = calculateNewId();
 
-                   Integer idCompra = crudCRepository.save(compraEntity).getIdBuy();
+        // Crear la entidad de compra
+        CompraEntity compraEntity = new CompraEntity();
+        compraEntity.setId(newId);
+        compraEntity.setFechaCompra(LocalDateTime.now());
+        compraEntity.setCc(buyDto.getCc());
+        compraEntity.setPlaca(buyDto.getPlaca());
 
-                   vehicleService.updateByStateV(vehicleDto.getPlaca(), "V");
 
-                   return idCompra;
-                   /*return buyRepository.save(compraDto, personDto, vehicleDto);*/
-                   /*VehicleDto.updateByStateV(vehicleDto.getPlaca(), vehicleDto.setEstado("V"));*/
-               } else {
-                   throw new IllegalArgumentException("Formato de placa invalido");
-               }
+        // Guardar la compra en la base de datos
+        CompraEntity savedCompra = crudCRepository.save(compraEntity);
 
-           } else {
-               throw new IllegalArgumentException("El numero de documento y placa no se encuentran registrados");
-           }
+        return savedCompra.getId(); /*newId;*/
+    }
 
-        } else {
-             throw new IllegalArgumentException("La identificación debe de tener entre 7 y 10 dígitos");
+    private Integer calculateNewId() {
+        // Obtener el ID más grande de la base de datos
+        Integer maxId = crudCRepository.findMaxId();
+
+        // Si la base de datos está vacía, iniciar el ID en 1
+        if (maxId == null) {
+            maxId = 0;
         }
+
+        // Incrementar el ID más grande en 1 para el nuevo ID
+        return maxId + 1;
     }
 }
 

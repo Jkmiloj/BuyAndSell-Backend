@@ -21,11 +21,11 @@ CREATE TABLE IF NOT EXISTS VEHICULO (
     );
 
 CREATE TABLE IF NOT EXISTS COMPRA (
-    idBuy INT AUTO_INCREMENT,
+    id INT not null,
     cc INT not null,
     placa VARCHAR(6) not null,
-    fechaCompra DATE not null,
-    PRIMARY KEY (idBuy),
+    fecha_compra DATE not null,
+    PRIMARY KEY (id),
     FOREIGN KEY (cc) REFERENCES PERSON(cc),
     FOREIGN KEY (placa) REFERENCES VEHICULO(placa)
 );
@@ -46,7 +46,6 @@ INSERT INTO VEHICULO  (placa, tipo, cilindraje, modelo, marca, ciudad, estado)
         ('XYZ789','Carro', 3500, 2020, 'Toyota Land Cruiser', 'Rionegro', 'V');
 
 
---INSERT INTO COMPRA (cc, placa, fechaCompra)
-  --  VALUES
-    --    (98765432, 'XYZ789', '20230911'),
-      --  (32968322, 'FYZ95B', '20230810');
+INSERT INTO COMPRA (id, cc, placa, fecha_compra)
+  VALUES
+       (1,32968322, 'FYZ95B', '2023-08-10');

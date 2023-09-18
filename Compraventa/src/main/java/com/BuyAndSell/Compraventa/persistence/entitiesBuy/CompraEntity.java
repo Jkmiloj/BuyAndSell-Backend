@@ -3,22 +3,19 @@ package com.BuyAndSell.Compraventa.persistence.entitiesBuy;
 import com.BuyAndSell.Compraventa.persistence.entitiesPerson.PersonaEntity;
 import com.BuyAndSell.Compraventa.persistence.entitiesVehicle.VehiculoEntity;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "COMPRA")
 public class CompraEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idBuy;
-    private Date fechaCompra;
+    private Integer id;
+    private LocalDateTime fechaCompra;
     private Integer cc;
     private String placa;
     @ManyToOne
@@ -30,9 +27,8 @@ public class CompraEntity {
     private VehiculoEntity vehiculoEntity;
 
 
-
-    public CompraEntity(Integer idBuy, Date fechaCompra, Integer cc, String placa) {
-        this.idBuy = idBuy;
+    public CompraEntity(Integer id, LocalDateTime fechaCompra, Integer cc, String placa) {
+        this.id = id;
         this.fechaCompra = fechaCompra;
         this.cc = cc;
         this.placa = placa;
@@ -60,19 +56,19 @@ public class CompraEntity {
         this.vehiculoEntity = vehiculoEntity;
     }
 
-    public Integer getIdBuy() {
-        return idBuy;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdBuy(Integer idBuy) {
-        this.idBuy = idBuy;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public Date getFechaCompra() {
+    public LocalDateTime getFechaCompra() {
         return fechaCompra;
     }
 
-    public void setFechaCompra(Date fechaCompra) {
+    public void setFechaCompra(LocalDateTime fechaCompra) {
         this.fechaCompra = fechaCompra;
     }
 

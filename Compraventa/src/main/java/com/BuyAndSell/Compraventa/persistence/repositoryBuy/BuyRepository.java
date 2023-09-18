@@ -1,14 +1,14 @@
 package com.BuyAndSell.Compraventa.persistence.repositoryBuy;
 
-import com.BuyAndSell.Compraventa.domain.CompraDto;
-import com.BuyAndSell.Compraventa.domain.PersonDto;
-import com.BuyAndSell.Compraventa.domain.VehicleDto;
+import com.BuyAndSell.Compraventa.domain.BuyDto;
 
 import java.util.List;
 
 public interface BuyRepository {
 
-    List<CompraDto> getAll();
+    List<BuyDto> getAll();
 
-    Integer save(CompraDto compraDto, PersonDto personDto, VehicleDto vehicleDto);
+    Integer save(BuyDto buyDto);
+
+    /*Integer getLastId();*/
 }

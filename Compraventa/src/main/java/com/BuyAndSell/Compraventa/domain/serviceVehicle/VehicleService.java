@@ -1,9 +1,11 @@
 package com.BuyAndSell.Compraventa.domain.serviceVehicle;
+
 import com.BuyAndSell.Compraventa.domain.VehicleDto;
 import com.BuyAndSell.Compraventa.persistence.entitiesVehicle.VehiculoEntity;
 import com.BuyAndSell.Compraventa.persistence.repositoryImplVehicle.VehicleRepositoryImpl;
 import com.BuyAndSell.Compraventa.persistence.repositoryVehicle.VehicleRepository;
 import org.springframework.stereotype.Service;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -18,43 +20,44 @@ public class VehicleService implements VehicleRepository {
         this.vehicleRepository = vehicleRepository;
     }
 
-    private final String[] estadoListV = {"A","I","V"};
-    private final String[] tipoV = {"Moto","Carro"};
+    private final String[] estadoListV = {"A", "I", "V"};
+    private final String[] tipoV = {"Moto", "Carro"};
+
     @Override
-    public List<VehicleDto> getAll(){
+    public List<VehicleDto> getAll() {
         return vehicleRepository.getAll();
     }
 
     @Override
-    public List<VehicleDto> getByStateV(String estado){
-        if (estado == null || estado.isEmpty()){
+    public List<VehicleDto> getByStateV(String estado) {
+        if (estado == null || estado.isEmpty()) {
             throw new IllegalArgumentException("Se debe de ingresar un estado");
         }
-        if(!Arrays.stream(estadoListV).anyMatch(state -> state.equals(estado))){
-            throw new RuntimeException("El estado no es válido, debe ingresar A, I o V");
+        if (!Arrays.stream(estadoListV).anyMatch(state -> state.equals(estado))) {
+            throw new RuntimeException("El estado no es válido");
         }
         return vehicleRepository.getByStateV(estado);
     }
 
     @Override
-    public Optional<VehiculoEntity> findById(String placa){
+    public Optional<VehiculoEntity> findById(String placa) {
         return Optional.empty();
     }
 
     @Override
-    public List<VehicleDto> getByPlaca(String placa){
-        if (placa == null || placa.isEmpty()){
+    public List<VehicleDto> getByPlaca(String placa) {
+        if (placa == null || placa.isEmpty()) {
             throw new IllegalArgumentException("Debe ingresar una placa");
         }
         Optional<VehiculoEntity> placaExist = vehicleRepository.findById(placa);
 
-        if (validarPlacaCarro(placa) || validarPlacaMoto(placa)){
-           if (placaExist.isPresent()) {
-               return vehicleRepository.getByPlaca(placa);
-           }else {
+        if (validarPlacaCarro(placa) || validarPlacaMoto(placa)) {
+            if (placaExist.isPresent()) {
+                return vehicleRepository.getByPlaca(placa);
+            } else {
                 throw new IllegalArgumentException("La PLaca no existe");
-           }
-        }else {
+            }
+        } else {
             throw new IllegalArgumentException("Formato de placa invalido");
         }
     }
@@ -77,10 +80,10 @@ public class VehicleService implements VehicleRepository {
     }
 
     @Override
-    public String update(VehicleDto vehicles, String placa){
+    public String update(VehicleDto vehicles, String placa) {
         Optional<VehiculoEntity> placaExist = vehicleRepository.findById(placa);
 
-        if (placaExist.isEmpty()){
+        if (placaExist.isEmpty()) {
             throw new IllegalArgumentException("La placa no se encuentra registrada");
         }
         return vehicleRepository.update(vehicles, placa);
@@ -93,41 +96,41 @@ public class VehicleService implements VehicleRepository {
     }
 
     @Override
-    public String save(VehicleDto vehicles){
-        if (vehicles.getPlaca() == null || vehicles.getPlaca().isEmpty()){
+    public String save(VehicleDto vehicles) {
+        if (vehicles.getPlaca() == null || vehicles.getPlaca().isEmpty()) {
             throw new IllegalArgumentException("Debe ingresar una placa");
         }
-        if (!Arrays.stream(tipoV).anyMatch(state -> state.equals(vehicles.getTipo()))){
+        if (!Arrays.stream(tipoV).anyMatch(state -> state.equals(vehicles.getTipo()))) {
             throw new IllegalArgumentException("Tipo de vehiculo no valido, debe ser Moto o Carro");
         }
         Optional<VehiculoEntity> placaExist = vehicleRepository.findById(vehicles.getPlaca().toUpperCase());
-        if (vehicles.getCilindraje() >= 99){
-            if (validarPlacaCarro(vehicles.getPlaca()) || validarPlacaMoto(vehicles.getPlaca())){
-                if (placaExist.isPresent()) {
-                    throw new IllegalArgumentException("La PLaca se encuentra registrada");
-                }else {
-                    return vehicleRepository.save(vehicles);
-                }
-            }else {
-                throw new IllegalArgumentException("Formato de placa invalido");
+        if (vehicles.getCilindraje() < 99) {
+            throw new IllegalArgumentException("El cilindraje no es válido");
+        }
+
+        if (validarPlacaCarro(vehicles.getPlaca()) || validarPlacaMoto(vehicles.getPlaca())) {
+            if (placaExist.isPresent()) {
+                throw new IllegalArgumentException("La PLaca se encuentra registrada");
+            } else {
+                return vehicleRepository.save(vehicles);
             }
         } else {
-            throw new IllegalArgumentException("El cilindraje no es válido");
+            throw new IllegalArgumentException("Formato de placa invalido");
         }
     }
 
     @Override
-    public void updateByStateV(String placa, String newestado){
-        if (placa == null || newestado == null || newestado.isEmpty()){
+    public void updateByStateV(String placa, String newestado) {
+        if (placa == null || newestado == null || newestado.isEmpty()) {
             throw new IllegalArgumentException("La cédula y el estado son obligatorios");
         }
         Optional<VehiculoEntity> personExist = vehicleRepository.findById(placa);
-        if (personExist.isEmpty()){
+        if (personExist.isEmpty()) {
             throw new IllegalArgumentException("No se puede actualizar, la placa no existe");
         }
-        if (validarPlacaCarro(placa) || validarPlacaMoto(placa)){
-            if (personExist.isPresent()){
-                if (!Arrays.asList("A","I").contains(newestado.toUpperCase())){
+        if (validarPlacaCarro(placa) || validarPlacaMoto(placa)) {
+            if (personExist.isPresent()) {
+                if (!Arrays.asList("A", "I").contains(newestado.toUpperCase())) {
                     throw new IllegalArgumentException("El estado no es valido");
                 }
                 VehiculoEntity vehiculoEntity = personExist.get();

@@ -1,8 +1,6 @@
 package com.BuyAndSell.Compraventa.controller.buy;
 
-import com.BuyAndSell.Compraventa.domain.CompraDto;
-import com.BuyAndSell.Compraventa.domain.PersonDto;
-import com.BuyAndSell.Compraventa.domain.VehicleDto;
+import com.BuyAndSell.Compraventa.domain.BuyDto;
 import com.BuyAndSell.Compraventa.domain.serviceBuy.BuyService;
 import com.BuyAndSell.Compraventa.domain.servicePerson.PersonService;
 import com.BuyAndSell.Compraventa.domain.serviceVehicle.VehicleService;
@@ -19,20 +17,18 @@ public class BuyController {
     VehicleService vehicleService;
     PersonService personService;
 
-
     public BuyController(BuyService buyService) {
         this.buyService = buyService;
     }
 
     @GetMapping(value = "/traer-compras")
-    public List<CompraDto> getAll(){
+    public List<BuyDto> getAll(){
         return buyService.getAll();
     }
 
-    @PostMapping(value = "/comprar")
-    public Integer save(@RequestBody CompraDto compraDto, PersonDto personDto, VehicleDto vehicleDto){
-        return buyService.save(compraDto, personDto, vehicleDto);
+    @PostMapping(value = "/guardar")
+    public Integer save(@RequestBody BuyDto buyDto){
+        return buyService.save(buyDto);
     }
-
 
 }
