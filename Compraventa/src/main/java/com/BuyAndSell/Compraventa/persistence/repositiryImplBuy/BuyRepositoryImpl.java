@@ -44,16 +44,10 @@ public class BuyRepositoryImpl implements BuyRepository {
         return compraList;
     }
 
-    /*@Override
-    public Integer findMaxId() {
-        return crudCRepository.findMaxId();
-    }*/
+
 
     @Override
     public Integer save(BuyDto buyDto) {
-
-        /*Integer lastId = getLastId();
-        Integer newId = lastId != null ? lastId + 1 : 1;*/
 
         CompraEntity compraEntity = new CompraEntity();
         compraEntity.setCc(buyDto.getCc());

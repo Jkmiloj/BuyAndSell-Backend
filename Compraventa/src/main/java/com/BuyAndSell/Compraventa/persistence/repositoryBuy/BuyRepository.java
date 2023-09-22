@@ -10,5 +10,4 @@ public interface BuyRepository {
 
     Integer save(BuyDto buyDto);
 
-    /*Integer getLastId();*/
 }

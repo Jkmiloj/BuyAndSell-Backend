@@ -27,6 +27,7 @@ public class CompraEntity {
     private VehiculoEntity vehiculoEntity;
 
 
+
     public CompraEntity(Integer id, LocalDateTime fechaCompra, Integer cc, String placa) {
         this.id = id;
         this.fechaCompra = fechaCompra;
@@ -37,7 +38,6 @@ public class CompraEntity {
     }
 
     public CompraEntity() {
-
     }
 
     public PersonaEntity getPersonaEntity() {

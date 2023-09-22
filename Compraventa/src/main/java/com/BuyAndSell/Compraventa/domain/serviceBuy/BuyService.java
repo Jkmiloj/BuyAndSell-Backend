@@ -1,5 +1,4 @@
 package com.BuyAndSell.Compraventa.domain.serviceBuy;
-
 import com.BuyAndSell.Compraventa.domain.BuyDto;
 import com.BuyAndSell.Compraventa.domain.serviceVehicle.VehicleService;
 import com.BuyAndSell.Compraventa.persistence.entitiesBuy.CompraEntity;
@@ -11,7 +10,6 @@ import com.BuyAndSell.Compraventa.persistence.repositoryImplPerson.PersonReposit
 import com.BuyAndSell.Compraventa.persistence.repositoryImplVehicle.VehicleRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
